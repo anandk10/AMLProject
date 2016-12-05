@@ -1,3 +1,5 @@
+from __future__ import division
+
 def computeAccuracy(testingData, predictions):
 	tp = 0
 	tn = 0
@@ -31,3 +33,4 @@ def computeAccuracy(testingData, predictions):
 	print("Actual (1) | TP - %d | FN - %d | "%(tp,fn))
 	print("Actual (0) | FP - %d | TN - %d |"%(fp,tn))
 	print("Accuracy : "+str(accuracy)+" %.")
+	return accuracy
