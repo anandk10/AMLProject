@@ -13,6 +13,8 @@ testingData=[]
 
 '''
 method: 1. Euclidean distance
+method: 2. Manhattan distance
+method: 3. Complete link
 '''
 def calDistance(method, row1, row2):
 	if method==1:
@@ -24,22 +26,14 @@ def calDistance(method, row1, row2):
 '''
 return list of k neighbors
 '''
-def findKNearestNeighbors(testSample, k):
+def findKNearestNeighbors(testSample, k, distanceMetric):
 	lenTrainingDataSet = len(trainingData)
 	dist=[]# this list will hold distances from all training samples to the
 			# testing example
-	for i in range(lenTrainingDataSet):
-		d = calDistance(3, trainingData[i], testSample)
-		dist.append((trainingData[i], d))
-	
+	dist = [(trainingData[i], calDistance(distanceMetric, trainingData[i], testSample)) for i in range(lenTrainingDataSet)]
 	# sort the distance to get the closest 'k' training points
 	dist.sort(key=operator.itemgetter(1))
-	kNeighbors = []
-	# print("k=",k)
-	for j in range(k):
-		# append the nearest training example
-		kNeighbors.append(dist[j][0])
-	return kNeighbors
+	return [dist[j][0] for j in range(k)]
 
 '''
 take majority of the neighbors' class labels
@@ -56,12 +50,12 @@ def getClassLabel(kNeighbors, k):
 	# the 0th element would be the label with highest number of votes
 	return sorted(classDict, reverse=True)[0]
 
-def predict(testRec, k):
+def predict(testRec, k, distanceMetric):
 	# print("from predict():",trainingData[0])
-	neighbors = findKNearestNeighbors(testRec, k)
+	neighbors = findKNearestNeighbors(testRec, k, distanceMetric)
 	return getClassLabel(neighbors, k)
 
-def knn(datasetDir, trainingFileName, testingFileName, k, best_predictors):
+def knn(datasetDir, trainingFileName, testingFileName, k, best_predictors, distanceMetric=1):
 
 	if datasetDir != None:
 		# here the data reading is done, since there is a dataset path variable supplied.
@@ -86,11 +80,10 @@ def knn(datasetDir, trainingFileName, testingFileName, k, best_predictors):
 	predictions = []
 	i=1
 	for testRec in testingData:
-		predictedValue = int(predict(testRec,k))
+		predictedValue = int(predict(testRec,k,distanceMetric))
 		predictions.append(predictedValue)
 		#print("Done with ",i," test record(s)")
 		i+=1
 	print("Done with predictions. Computing accuracy.")
-	# print("predictions : ",predictions)
 	accuracy = computeAccuracy(testingData, predictions)
 	return len(trainingData), accuracy

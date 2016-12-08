@@ -1,7 +1,8 @@
 import knn
 import sys
 import testingKnn
-import matplotlib.pyplot as plt
+import knnResultWrapper
+# import matplotlib.pyplot as plt
 def usage():
 	print("Wrong usage.")
 
@@ -20,10 +21,8 @@ if algo=="knn":
 	print("datasetPath",datasetPath)
 	print("trainFile:",trainingFileName)
 	print("testingFile:",testingFileName)
-
 	print("k set to ",k)
 	knn.knn(datasetPath, trainingFileName, testingFileName, k, best_predictors)
-
 elif algo=="lr":
 	usage()
 elif algo=="testknn":
@@ -34,12 +33,7 @@ elif algo=="testknn":
 	print("datasetPath",datasetPath)
 	print("trainFile:",trainingFileName)
 	print("testingFile:",testingFileName)
-	kList, accuracyTrend = testingKnn.testKnn(datasetPath, trainingFileName, testingFileName, best_predictors)
-	# plt.plot(kList, accuracyTrend, "r-")
-	plt.plot(kList, accuracyTrend, color="blue", linewidth=3, linestyle="--", label="accuracy")
-	plt.legend(loc="upper left")
-	plt.save("accuracyVsK.png")
+	testingKnn.testKnn(datasetPath, trainingFileName, testingFileName, best_predictors)
 else:
-
 	usage()
 	sys.exit(1)
