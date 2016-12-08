@@ -12,7 +12,15 @@ class ResultsMetric(object):
 
 	def __str__(self):
 		return ("Acc - %f TPR - %f, FPR - %f, TP - %f, FP - %f, TN - %f, FN - %f"%(self.accuracy, self.tpr, self.fpr, self.tp, self.fp, self.tn, self.fn))
-		
+
+
+def printConfMatrix(tp,fp,tn,fn):
+	print("Confusion Matrix: ")
+	print("\t Predicted")
+	print("\t   |Class (1) |Class (0) |")
+	print("Actual (1) | TP - %d | FN - %d |"%(tp,fn))
+	print("Actual (0) | FP - %d | TN - %d |"%(fp,tn))
+
 def computeAccuracy(testingData, predictions):
 	tp = 0
 	tn = 0
@@ -40,11 +48,7 @@ def computeAccuracy(testingData, predictions):
 				fp += 1
 	accuracy = (tp+tn)/(tp+tn+fp+fn) * 100.0
 	accuracy = round(accuracy,4)
-	print("Confusion Matrix: ")
-	print("\t Predicted")
-	print("\t   |Class (1) |Class (0) |")
-	print("Actual (1) | TP - %d | FN - %d |"%(tp,fn))
-	print("Actual (0) | FP - %d | TN - %d |"%(fp,tn))
+	printConfMatrix(tp,fp,tn,fn)
 	print("Accuracy : "+str(accuracy)+" %.")
 	tpr = tp/(tp+fn)
 	fpr = fp/(fp+tn)
