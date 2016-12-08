@@ -5,8 +5,7 @@ from dataReader import readData
 from distances import calManhattanDistance
 from distances import calEuclideanDistance
 from distances import calMaxDistance
-from confusionMatrix import computeAccuracy
-
+from confusionMatrix import *
 trainingData=[]
 testingData=[]
 
@@ -85,5 +84,6 @@ def knn(datasetDir, trainingFileName, testingFileName, k, best_predictors, dista
 		#print("Done with ",i," test record(s)")
 		i+=1
 	print("Done with predictions. Computing accuracy.")
-	accuracy = computeAccuracy(testingData, predictions)
-	return len(trainingData), accuracy
+	resultMetric = computeAccuracy(testingData, predictions)
+	print resultMetric
+	return resultMetric

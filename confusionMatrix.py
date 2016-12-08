@@ -1,5 +1,18 @@
 from __future__ import division
+class ResultsMetric(object):
+	"""docstring for ResultsMetric"""
+	def __init__(self, accuracy, tpr, fpr, tp, fp, tn, fn):
+		self.accuracy =accuracy
+		self.tpr = tpr
+		self.fpr = fpr
+		self.tp = tp
+		self.fp = fp
+		self.tn = tn
+		self.fn = fn
 
+	def __str__(self):
+		return ("Acc - %f TPR - %f, FPR - %f, TP - %f, FP - %f, TN - %f, FN - %f"%(self.accuracy, self.tpr, self.fpr, self.tp, self.fp, self.tn, self.fn))
+		
 def computeAccuracy(testingData, predictions):
 	tp = 0
 	tn = 0
@@ -30,7 +43,9 @@ def computeAccuracy(testingData, predictions):
 	print("Confusion Matrix: ")
 	print("\t Predicted")
 	print("\t   |Class (1) |Class (0) |")
-	print("Actual (1) | TP - %d | FN - %d | "%(tp,fn))
+	print("Actual (1) | TP - %d | FN - %d |"%(tp,fn))
 	print("Actual (0) | FP - %d | TN - %d |"%(fp,tn))
 	print("Accuracy : "+str(accuracy)+" %.")
-	return accuracy
+	tpr = tp/(tp+fn)
+	fpr = fp/(fp+tn)
+	return ResultsMetric(accuracy, tpr, fpr, tp, fp, tn, fn) 
